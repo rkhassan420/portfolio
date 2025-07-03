@@ -29,13 +29,11 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React frontend
-    "http://127.0.0.1:5173"
+      "https://developedbyhassan.netlify.app",  # React frontend
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173"
+      "https://developedbyhassan.netlify.app",
 ]
 
 # SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site

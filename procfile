@@ -1,1 +1,1 @@
-web: gunicorn portfolio_drf.wsgi
+web: gunicorn portfolio_drf.wsgi --bind 0.0.0.0:$PORT
