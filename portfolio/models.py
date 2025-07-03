@@ -7,12 +7,11 @@ class HomeInfo(models.Model):
     full_name = models.CharField(max_length=100, default='')
     skill_title = models.CharField(max_length=100, default='')
     experience = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='uploads/images/', blank=True, null=True, default=None)
-    cv = models.FileField(upload_to='uploads/cv/', blank=True, null=True, default=None)
+    image = models.ImageField(upload_to='portfolio/', blank=True, null=True, default=None)
+    cv = models.FileField(upload_to='portfolio/', blank=True, null=True, default=None)
 
     def __str__(self):
         return self.full_name
-
 
 
 class AboutInfo(models.Model):
@@ -20,7 +19,6 @@ class AboutInfo(models.Model):
     education = models.CharField(max_length=100, default='')
     skill_pack = models.CharField(max_length=100, default='')
     image = models.ImageField(upload_to='uploads/images/', blank=True, null=True, default=None)
-
 
 
 class FooterInfo(models.Model):
@@ -46,10 +44,3 @@ class ProjectsInfo(models.Model):
     p_skills = models.CharField(max_length=100, default='')
     p_url = models.CharField(max_length=300, default='')
     image = models.ImageField(upload_to='uploads/images/', blank=True, null=True, default=None)
-
-
-
-
-
-
-

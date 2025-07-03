@@ -160,3 +160,14 @@ REST_FRAMEWORK = {
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+INSTALLED_APPS += ['cloudinary', 'cloudinary_storage']
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dvjunzdun',
+    'API_KEY': '215687475676983',
+    'API_SECRET': 'Uv4wAYmYI722Kui1p9lV0ZxllFk'
+}
