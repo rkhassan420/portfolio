@@ -2,8 +2,7 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from rest_framework.decorators import api_view, permission_classes, parser_classes
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from .models import HomeInfo, AboutInfo, FooterInfo, ProjectsInfo, LatestInfo
@@ -135,7 +134,6 @@ def get_home_info(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-@parser_classes([MultiPartParser, FormParser])  # ✅ Add this
 def add_home_info(request):
     username = request.data.get('username')
 
