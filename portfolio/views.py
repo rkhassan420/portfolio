@@ -143,10 +143,10 @@ def add_home_info(request):
         data = request.data.copy()
 
         # ✅ If image or cv not provided, keep the existing ones
-        if not request.FILES.get('image'):
-            data['image'] = home_info.image  # Existing image instance
-        if not request.FILES.get('cv'):
-            data['cv'] = home_info.cv  # Existing cv instance
+        if not data.get('image'):
+            data['image'] = home_info.image
+        if not data.get('cv'):
+            data['cv'] = home_info.cv
 
         serializer = HomeSerializer(home_info, data=data, partial=True)
 
