@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
-from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -9,13 +8,11 @@ from .models import HomeInfo, AboutInfo, FooterInfo, ProjectsInfo, LatestInfo
 from .serializer import HomeSerializer, AboutSerializer, FooterSerializer, ProjectsSerializer, LatestSerializer
 
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 @ensure_csrf_cookie  # ← this is directly usable here
 def GetCrsfToken(request):
     return Response({'success': 'CSRF Cookie Set'})
-
 
 
 
@@ -40,7 +37,6 @@ def RegisterView(request):
     user.save()
 
     return Response({'message': 'User registered successfully'}, status=201)
-
 
 
 

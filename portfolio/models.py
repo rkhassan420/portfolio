@@ -1,5 +1,4 @@
 from django.db import models
-from cloudinary.models import CloudinaryField
 
 
 
@@ -9,10 +8,8 @@ class HomeInfo(models.Model):
     full_name = models.CharField(max_length=100, default='')
     skill_title = models.CharField(max_length=100, default='')
     experience = models.PositiveIntegerField(default=0)
-    image = CloudinaryField('image', blank=True, null=True)
-    cv = CloudinaryField('cv', blank=True, null=True)
-    # image = models.ImageField(upload_to='portfolio/', blank=True, null=True, default=None)
-    # cv = models.FileField(upload_to='portfolio/', blank=True, null=True, default=None)
+    image = models.ImageField(upload_to='portfolio/', blank=True, null=True, default=None)
+    cv = models.FileField(upload_to='portfolio/', blank=True, null=True, default=None)
 
     def __str__(self):
         return self.full_name

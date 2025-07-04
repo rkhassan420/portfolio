@@ -10,12 +10,10 @@ from .views import add_home_info, get_home_info, get_about_info, add_about_info,
 urlpatterns = [
 
 
-
     path('RegisterUser/', RegisterView, name='RegisterUser'),
     path('LoginUser/', LoginView, name='LoginUser'),
     path('LogoutUser/', LogoutView, name='LogoutUser'),
     path('csrf/', GetCrsfToken, name='GetCsrfToken'),
-
 
 
 
