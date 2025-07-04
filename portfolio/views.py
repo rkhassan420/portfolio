@@ -167,10 +167,19 @@ def add_home_info(request):
 # get AboutInfo
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_about_info(request):
-    about_info = AboutInfo.objects.all()
-    serializer = AboutSerializer(about_info, many=True)
-    return Response(serializer.data)
+    username = request.query_params.get('username')
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
+    try:
+        about_info = AboutInfo.objects.get(username=username)
+        serializer = AboutSerializer(about_info)
+        return Response(serializer.data)
+    except HomeInfo.DoesNotExist:
+        return Response({"error": "Not found"}, status=404)
 
 
 # get AboutInfo
@@ -179,30 +188,34 @@ def get_about_info(request):
 # post AboutInfo
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def add_about_info(request):
+    username = request.data.get('username')
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
     try:
-        # Get the existing object (since only one exists)
-        about_info = AboutInfo.objects.first()
+        about_info = AboutInfo.objects.get(username=username)
 
-        if about_info:
-            # Use the serializer but only update fields that are not empty
-            data = request.data.copy()
+        # ✅ Create a mutable copy of request data
+        data = request.data.copy()
 
-            # These are file fields — check if they're empty
-            if not request.FILES.get('image'):
-                data['image'] = about_info.image  # keep existing
+        # ✅ If image or cv not provided, keep the existing ones
+        if not data.get('image'):
+            data['image'] = about_info.image
 
-            serializer = AboutSerializer(about_info, data=data)
-        else:
-            serializer = AboutSerializer(data=request.data)
+        serializer = AboutSerializer(about_info, data=data, partial=True)
+
+
+    except AboutInfo.DoesNotExist:
+        serializer = AboutSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=200)
 
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
+        return Response(serializer.errors, status=400)
 
 
 # post AboutInfo

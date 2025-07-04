@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class HomeInfo(models.Model):
     username = models.CharField(max_length=100, default='')
     logo_title = models.CharField(max_length=100, default='')
@@ -19,7 +18,9 @@ class AboutInfo(models.Model):
     projects = models.CharField(max_length=100, default='')
     education = models.CharField(max_length=100, default='')
     skill_pack = models.CharField(max_length=100, default='')
-    image = models.ImageField(upload_to='uploads/images/', blank=True, null=True, default=None)
+    image = models.URLField(max_length=700, blank=True, null=True)
+
+
 
 
 class FooterInfo(models.Model):
