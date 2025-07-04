@@ -8,8 +8,8 @@ class HomeInfo(models.Model):
     full_name = models.CharField(max_length=100, default='')
     skill_title = models.CharField(max_length=100, default='')
     experience = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='portfolio/', blank=True, null=True, default=None)
-    cv = models.FileField(upload_to='portfolio/', blank=True, null=True, default=None)
+    image = models.URLField(max_length=700, blank=True, null=True)
+    cv = models.URLField(max_length=700, blank=True, null=True)
 
     def __str__(self):
         return self.full_name
