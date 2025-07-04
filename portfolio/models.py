@@ -15,6 +15,7 @@ class HomeInfo(models.Model):
 
 
 class AboutInfo(models.Model):
+    username = models.CharField(max_length=100, default='')
     projects = models.CharField(max_length=100, default='')
     education = models.CharField(max_length=100, default='')
     skill_pack = models.CharField(max_length=100, default='')
