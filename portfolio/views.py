@@ -15,7 +15,6 @@ def GetCrsfToken(request):
     return Response({'success': 'CSRF Cookie Set'})
 
 
-
 @csrf_protect
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -39,8 +38,6 @@ def RegisterView(request):
     return Response({'message': 'User registered successfully'}, status=201)
 
 
-
-
 @csrf_protect
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -58,15 +55,11 @@ def LoginView(request):
         return Response({'error': 'Invalid username or password'}, status=401)
 
 
-
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def LogoutView(request):
     logout(request)
     return Response({'message': 'Logout successful'}, status=200)
-
 
 
 # get HomeInfo
@@ -95,7 +88,6 @@ def get_home_info(request):
 
 
 # get HomeInfo
-
 
 
 # post HomeInfo
@@ -160,7 +152,6 @@ def add_home_info(request):
     return Response(serializer.errors, status=400)
 
 
-
 # post HomeInfo
 
 
@@ -211,11 +202,11 @@ def add_about_info(request):
     except AboutInfo.DoesNotExist:
         serializer = AboutSerializer(data=request.data)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=200)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=200)
 
-        return Response(serializer.errors, status=400)
+    return Response(serializer.errors, status=400)
 
 
 # post AboutInfo
@@ -273,7 +264,6 @@ def get_projects_info(request):
     })
 
 
-
 # get ProjectsInfo
 
 
@@ -289,8 +279,8 @@ def add_projects_info(request):
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
-# post ProjectsInfo
 
+# post ProjectsInfo
 
 
 # get LatestInfo
@@ -321,6 +311,7 @@ def add_latest_info(request):
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
+
 # post LatestInfo
 
 
@@ -335,8 +326,8 @@ def delete_latest_info(request, pk):
     except LatestInfo.DoesNotExist:
         return Response({'error': 'Project not found'}, status=404)
 
-# latestDel
 
+# latestDel
 
 
 # projectsDel
@@ -351,5 +342,3 @@ def delete_projects_info(request, pk):
         return Response({'error': 'Project not found'}, status=404)
 
 # projectsDel
-
-
