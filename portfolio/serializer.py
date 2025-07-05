@@ -22,7 +22,7 @@ class FooterSerializer(serializers.ModelSerializer):
 
 
 class LatestSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(required=False, allow_null=True)
+    image = serializers.URLField(required=False, allow_null=True)
 
     class Meta:
         model = LatestInfo
