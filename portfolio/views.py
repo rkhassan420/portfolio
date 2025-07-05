@@ -220,7 +220,7 @@ def add_latest_info(request):
     username = request.data.get('username')
 
     print("Request Data:", request.data)
-    print("Username from request.data:", request.data.get("username"))
+
 
     if not username:
         return Response({"error": "Username is required"}, status=400)
@@ -229,7 +229,8 @@ def add_latest_info(request):
     serializer = LatestSerializer(data=data)
 
     if serializer.is_valid():
-        serializer.save()  # Or serializer.save(username=username) if you want to force it
+        # serializer.save()  # Or serializer.save(username=username) if you want to force it
+        serializer.save(username=username)  # ✅ Force set here
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
