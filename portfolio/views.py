@@ -212,6 +212,51 @@ def add_about_info(request):
 # post AboutInfo
 
 
+# post LatestInfo
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def add_latest_info(request):
+    username = request.data.get('username')
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
+    data = request.data.copy()  # Make mutable copy if needed
+    serializer = LatestSerializer(data=data)
+
+    if serializer.is_valid():
+        serializer.save()  # Or serializer.save(username=username) if you want to force it
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
+
+
+# post LatestInfo
+
+# get LatestInfo
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_latest_info(request):
+    username = request.query_params.get('username')
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
+    latest_info = LatestInfo.objects.filter(username=username).order_by('-id')
+    count = latest_info.count()
+
+    serializer = LatestSerializer(latest_info, many=True)
+    return Response({
+        'data': serializer.data,
+        'count': count
+    })
+
+
+# get LatestInfo
+
+
+
 # get FooterInfo
 
 @api_view(['GET'])
@@ -298,21 +343,6 @@ def get_latest_info(request):
 
 # get LatestInfo
 
-
-# post LatestInfo
-
-@api_view(['POST'])
-def add_latest_info(request):
-    latest_info = LatestInfo.objects.all()
-    serializer = LatestSerializer(data=request.data)
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
-
-
-# post LatestInfo
 
 
 # latestDel
