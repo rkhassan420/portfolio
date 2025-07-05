@@ -219,6 +219,9 @@ def add_about_info(request):
 def add_latest_info(request):
     username = request.data.get('username')
 
+    print("Request Data:", request.data)
+    print("Username from request.data:", request.data.get("username"))
+
     if not username:
         return Response({"error": "Username is required"}, status=400)
 
