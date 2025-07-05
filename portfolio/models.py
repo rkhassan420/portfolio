@@ -37,6 +37,7 @@ class LatestInfo(models.Model):
 
 
 
+
 class FooterInfo(models.Model):
     full_name = models.CharField(max_length=100, default='')
     email = models.CharField(max_length=100, default='')
