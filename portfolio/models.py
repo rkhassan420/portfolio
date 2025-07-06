@@ -24,18 +24,13 @@ class AboutInfo(models.Model):
 
 
 class LatestInfo(models.Model):
-    username = models.CharField(max_length=100, default='')
+
     s_one = models.CharField(max_length=100, default='')
     s_two = models.CharField(max_length=100, default='')
     p_name = models.CharField(max_length=100, default='')
     p_skills = models.CharField(max_length=100, default='')
     p_url = models.CharField(max_length=300, default='')
     image = models.URLField(max_length=700, blank=True, null=True)
-
-
-
-
-
 
 
 class FooterInfo(models.Model):

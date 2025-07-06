@@ -283,17 +283,32 @@ def get_footer_info(request):
 
 
 # post FooterInfo
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def add_footer_info(request):
-    serializer = FooterSerializer(data=request.data)
+    username = request.data.get('username')
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
+    try:
+        footer_info = FooterInfo.objects.get(username=username)
+
+        # ✅ Update existing footer info
+        data = request.data.copy()
+        serializer = FooterSerializer(footer_info, data=data, partial=True)
+
+    except FooterInfo.DoesNotExist:
+        # ✅ Create new footer info
+        serializer = FooterSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=201)
+        return Response(serializer.data, status=200)
 
     return Response(serializer.errors, status=400)
+
+
 
 
 # post FooterInfo
