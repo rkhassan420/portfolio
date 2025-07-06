@@ -326,46 +326,14 @@ def add_projects_info(request):
 def delete_projects_info(request, pk):
     try:
         project = ProjectsInfo.objects.get(pk=pk)
-
-        # Check if image is from Supabase
-        if project.image and "supabase.co/storage" in project.image:
-            try:
-                # Extract image path from Supabase public URL
-                image_url = project.image
-                match = re.search(r'/object/public/portfolio/(.+)', image_url)
-                if match:
-                    image_path = match.group(1)
-
-                    # Use Supabase REST API to delete the image
-                    # Requires your Supabase API key and project URL
-                    SUPABASE_URL = "https://psayyzbyeelgirwdzoyg.supabase.co"
-                    SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYXl5emJ5ZWVsZ2lyd2R6b3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MDMzMjYsImV4cCI6MjA2NzE3OTMyNn0.S7e9FKq0pOjxIyEcDsKW67wjP97sW7OPLZwK-NrqrCg"  # Replace with service role key
-
-                    headers = {
-                        "apikey": SUPABASE_KEY,
-                        "Authorization": f"Bearer {SUPABASE_KEY}",
-                    }
-
-                    del_res = requests.delete(
-                        f"{SUPABASE_URL}/storage/v1/object/portfolio/{image_path}",
-                        headers=headers
-                    )
-
-                    if del_res.status_code != 200:
-                        print("⚠️ Supabase image deletion failed:", del_res.text)
-
-            except Exception as e:
-                print("⚠️ Error deleting image from Supabase:", e)
-
-        # Delete the project from DB
         project.delete()
-
         return Response(status=204)
-
     except ProjectsInfo.DoesNotExist:
         return Response({'error': 'Project not found'}, status=404)
 
 # projectsDel
+
+
 
 # @api_view(['DELETE'])
 # def delete_projects_info(request, pk):

@@ -8,7 +8,7 @@ class HomeInfoAdmin(admin.ModelAdmin):
 
 
 class AboutInfoAdmin(admin.ModelAdmin):
-    list_display = ('projects',  'education', 'skill_pack', 'image',)
+    list_display = ('s_one', 's_two', 'projects', 'education', 'skill_pack', 'image',)
 
 
 class FooterInfoAdmin(admin.ModelAdmin):
@@ -18,7 +18,7 @@ class ProjectsInfoAdmin(admin.ModelAdmin):
     list_display = ('p_name',  'p_skills', 'p_url', 'image')
 
 class LatestInfoAdmin(admin.ModelAdmin):
-    list_display = ('s_one', 's_two', 'p_name', 'p_skills', 'p_url', 'image')
+    list_display = ('p_name', 'p_skills', 'p_url', 'image')
 
 
 admin.site.register(HomeInfo, HomeInfoAdmin)

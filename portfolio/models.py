@@ -16,6 +16,8 @@ class HomeInfo(models.Model):
 
 class AboutInfo(models.Model):
     username = models.CharField(max_length=100, default='')
+    s_one = models.CharField(max_length=100, default='')
+    s_two = models.CharField(max_length=100, default='')
     projects = models.CharField(max_length=100, default='')
     education = models.CharField(max_length=100, default='')
     skill_pack = models.CharField(max_length=100, default='')
@@ -25,8 +27,6 @@ class AboutInfo(models.Model):
 
 class LatestInfo(models.Model):
     username = models.CharField(max_length=100, default='')
-    s_one = models.CharField(max_length=100, default='')
-    s_two = models.CharField(max_length=100, default='')
     p_name = models.CharField(max_length=100, default='')
     p_skills = models.CharField(max_length=100, default='')
     p_url = models.CharField(max_length=300, default='')
