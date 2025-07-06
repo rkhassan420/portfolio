@@ -62,8 +62,6 @@ def LogoutView(request):
     return Response({'message': 'Logout successful'}, status=200)
 
 
-
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_home_info(request):
@@ -81,8 +79,6 @@ def get_home_info(request):
 
 
 # get HomeInfo
-
-
 
 
 @api_view(['POST'])
@@ -189,7 +185,6 @@ def add_latest_info(request):
     if not username:
         return Response({"error": "Username is required"}, status=400)
 
-
     data = request.data.copy()  # Make mutable copy if needed
     serializer = LatestSerializer(data=data)
 
@@ -243,7 +238,6 @@ def get_footer_info(request):
         return Response({'error': str(e)}, status=500)
 
 
-
 # get FooterInfo
 
 
@@ -252,7 +246,6 @@ def get_footer_info(request):
 @permission_classes([AllowAny])
 def add_footer_info(request):
     username = request.data.get('username')
-
 
     if not username:
         return Response({"error": "Username is required"}, status=400)
@@ -275,25 +268,30 @@ def add_footer_info(request):
     return Response(serializer.errors, status=400)
 
 
-
-
 # post FooterInfo
 
 
-# get ProjectsInfo
-#
-# @api_view(['GET'])
-# def get_projects_info(request):
-#     projects_info = ProjectsInfo.objects.all()
-#     count = ProjectsInfo.objects.count()
-#     serializer = ProjectsSerializer(projects_info, many=True)
-#     return Response({
-#         'data': serializer.data,
-#         'count': count
-#     })
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_projects_info(request):
+    username = request.query_params.get('username')
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
+    try:
+        projects_info = ProjectsInfo.objects.get(username=username)
+        serializer = ProjectsSerializer(projects_info)
+        count = ProjectsInfo.objects.count()
+        return Response({
+            'data': serializer.data,
+            'count': count
+        })
+    except ProjectsInfo.DoesNotExist:
+        return Response({"error": "Not found"}, status=404)
 
 
-# get ProjectsInfo
+# get HomeInfo
 
 
 # post ProjectsInfo
@@ -308,7 +306,6 @@ def add_projects_info(request):
     if not username:
         return Response({"error": "Username is required"}, status=400)
 
-
     data = request.data.copy()  # Make mutable copy if needed
     serializer = ProjectsSerializer(data=data)
 
@@ -317,11 +314,21 @@ def add_projects_info(request):
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
-
 # post ProjectsInfo
 
 
+# projectsDel
 
+# @api_view(['DELETE'])
+# def delete_projects_info(request, pk):
+#     try:
+#         project = ProjectsInfo.objects.get(pk=pk)
+#         project.delete()
+#         return Response(status=204)
+#     except LatestInfo.DoesNotExist:
+#         return Response({'error': 'Project not found'}, status=404)
+
+# projectsDel
 
 # get LatestInfo
 
@@ -354,15 +361,4 @@ def add_projects_info(request):
 # latestDel
 
 
-# projectsDel
 
-# @api_view(['DELETE'])
-# def delete_projects_info(request, pk):
-#     try:
-#         project = ProjectsInfo.objects.get(pk=pk)
-#         project.delete()
-#         return Response(status=204)
-#     except LatestInfo.DoesNotExist:
-#         return Response({'error': 'Project not found'}, status=404)
-
-# projectsDel
