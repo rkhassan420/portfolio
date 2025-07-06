@@ -288,6 +288,8 @@ def get_footer_info(request):
 def add_footer_info(request):
     username = request.data.get('username')
 
+    print("Request Data:", request.data)
+
     if not username:
         return Response({"error": "Username is required"}, status=400)
 

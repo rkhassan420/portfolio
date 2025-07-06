@@ -24,7 +24,7 @@ class AboutInfo(models.Model):
 
 
 class LatestInfo(models.Model):
-
+    username = models.CharField(max_length=100, default='')
     s_one = models.CharField(max_length=100, default='')
     s_two = models.CharField(max_length=100, default='')
     p_name = models.CharField(max_length=100, default='')
@@ -42,14 +42,6 @@ class FooterInfo(models.Model):
     github = models.CharField(max_length=100, default='')
     whatsapp = models.CharField(max_length=100, default='')
 
-
-class LatestInfo(models.Model):
-    s_one = models.CharField(max_length=100, default='')
-    s_two = models.CharField(max_length=100, default='')
-    p_name = models.CharField(max_length=100, default='')
-    p_skills = models.CharField(max_length=100, default='')
-    p_url = models.CharField(max_length=300, default='')
-    image = models.ImageField(upload_to='uploads/images/', blank=True, null=True, default=None)
 
 
 class ProjectsInfo(models.Model):
