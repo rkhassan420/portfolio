@@ -3,9 +3,7 @@
 from django.urls import path
 
 from .views import add_home_info, get_home_info, get_about_info, add_about_info, get_footer_info, add_footer_info, \
-    add_projects_info, \
-    get_projects_info, get_latest_info, add_latest_info, delete_latest_info, delete_projects_info, RegisterView, \
-    GetCrsfToken, LoginView, LogoutView \
+    add_projects_info,get_latest_info, add_latest_info, RegisterView, GetCrsfToken, LoginView, LogoutView \
 
 urlpatterns = [
 
@@ -30,10 +28,10 @@ urlpatterns = [
     path('get-latest-info/', get_latest_info, name='get_latest_info'),
     path('add-latest-info/', add_latest_info, name='add_latest_info'),
 
-    path('get-projects-info/', get_projects_info, name='get_projects_info'),
+    # path('get-projects-info/', get_projects_info, name='get_projects_info'),
     path('add-projects-info/', add_projects_info, name='add_projects_info'),
 
-    path('latest-del/<int:pk>/', delete_latest_info),
-    path('projects-del/<int:pk>/', delete_projects_info),
+    # path('latest-del/<int:pk>/', delete_latest_info),
+    # path('projects-del/<int:pk>/', delete_projects_info),
 
 ]

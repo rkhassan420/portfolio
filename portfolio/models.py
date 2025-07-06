@@ -45,7 +45,9 @@ class FooterInfo(models.Model):
 
 
 class ProjectsInfo(models.Model):
+    username = models.CharField(max_length=100, default='')
     p_name = models.CharField(max_length=100, default='')
     p_skills = models.CharField(max_length=100, default='')
     p_url = models.CharField(max_length=300, default='')
-    image = models.ImageField(upload_to='uploads/images/', blank=True, null=True, default=None)
+    image = models.URLField(max_length=700, blank=True, null=True)
+

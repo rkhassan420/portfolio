@@ -62,14 +62,7 @@ def LogoutView(request):
     return Response({'message': 'Logout successful'}, status=200)
 
 
-# get HomeInfo
 
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def get_home_info(request):
-#     home_info = HomeInfo.objects.all()
-#     serializer = HomeSerializer(home_info, many=True)
-#     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -90,34 +83,6 @@ def get_home_info(request):
 # get HomeInfo
 
 
-# post HomeInfo
-
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def add_home_info(request):
-#     try:
-#         home_info = HomeInfo.objects.first()
-#
-#         if home_info:
-#             data = request.data.copy()
-#
-#
-#             if not request.FILES.get('image'):
-#                 data['image'] = home_info.image
-#             if not request.FILES.get('cv'):
-#                 data['cv'] = home_info.cv
-#
-#             serializer = HomeSerializer(home_info, data=data)
-#         else:
-#             serializer = HomeSerializer(data=request.data)
-#
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=201)
-#         return Response(serializer.errors, status=400)
-#
-#     except Exception as e:
-#         return Response({'error': str(e)}, status=500)
 
 
 @api_view(['POST'])
@@ -288,7 +253,6 @@ def get_footer_info(request):
 def add_footer_info(request):
     username = request.data.get('username')
 
-    print("Request Data:", request.data)
 
     if not username:
         return Response({"error": "Username is required"}, status=400)
@@ -317,16 +281,16 @@ def add_footer_info(request):
 
 
 # get ProjectsInfo
-
-@api_view(['GET'])
-def get_projects_info(request):
-    projects_info = ProjectsInfo.objects.all()
-    count = ProjectsInfo.objects.count()
-    serializer = ProjectsSerializer(projects_info, many=True)
-    return Response({
-        'data': serializer.data,
-        'count': count
-    })
+#
+# @api_view(['GET'])
+# def get_projects_info(request):
+#     projects_info = ProjectsInfo.objects.all()
+#     count = ProjectsInfo.objects.count()
+#     serializer = ProjectsSerializer(projects_info, many=True)
+#     return Response({
+#         'data': serializer.data,
+#         'count': count
+#     })
 
 
 # get ProjectsInfo
@@ -335,9 +299,18 @@ def get_projects_info(request):
 # post ProjectsInfo
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def add_projects_info(request):
-    projects_info = AboutInfo.objects.all()
-    serializer = ProjectsSerializer(data=request.data)
+    username = request.data.get('username')
+
+    print("Request Data:", request.data)
+
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
+
+
+    data = request.data.copy()  # Make mutable copy if needed
+    serializer = ProjectsSerializer(data=data)
 
     if serializer.is_valid():
         serializer.save()
@@ -348,17 +321,19 @@ def add_projects_info(request):
 # post ProjectsInfo
 
 
+
+
 # get LatestInfo
 
-@api_view(['GET'])
-def get_latest_info(request):
-    latest_info = LatestInfo.objects.all()
-    count = LatestInfo.objects.count()
-    serializer = LatestSerializer(latest_info, many=True)
-    return Response({
-        'data': serializer.data,
-        'count': count
-    })
+# @api_view(['GET'])
+# def get_latest_info(request):
+#     latest_info = LatestInfo.objects.all()
+#     count = LatestInfo.objects.count()
+#     serializer = LatestSerializer(latest_info, many=True)
+#     return Response({
+#         'data': serializer.data,
+#         'count': count
+#     })
 
 
 # get LatestInfo
@@ -366,14 +341,14 @@ def get_latest_info(request):
 
 # latestDel
 
-@api_view(['DELETE'])
-def delete_latest_info(request, pk):
-    try:
-        project = LatestInfo.objects.get(pk=pk)
-        project.delete()
-        return Response(status=204)
-    except LatestInfo.DoesNotExist:
-        return Response({'error': 'Project not found'}, status=404)
+# @api_view(['DELETE'])
+# def delete_latest_info(request, pk):
+#     try:
+#         project = LatestInfo.objects.get(pk=pk)
+#         project.delete()
+#         return Response(status=204)
+#     except LatestInfo.DoesNotExist:
+#         return Response({'error': 'Project not found'}, status=404)
 
 
 # latestDel
@@ -381,13 +356,13 @@ def delete_latest_info(request, pk):
 
 # projectsDel
 
-@api_view(['DELETE'])
-def delete_projects_info(request, pk):
-    try:
-        project = ProjectsInfo.objects.get(pk=pk)
-        project.delete()
-        return Response(status=204)
-    except LatestInfo.DoesNotExist:
-        return Response({'error': 'Project not found'}, status=404)
+# @api_view(['DELETE'])
+# def delete_projects_info(request, pk):
+#     try:
+#         project = ProjectsInfo.objects.get(pk=pk)
+#         project.delete()
+#         return Response(status=204)
+#     except LatestInfo.DoesNotExist:
+#         return Response({'error': 'Project not found'}, status=404)
 
 # projectsDel

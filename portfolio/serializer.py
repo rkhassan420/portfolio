@@ -30,6 +30,8 @@ class LatestSerializer(serializers.ModelSerializer):
 
 
 class ProjectsSerializer(serializers.ModelSerializer):
+    image = serializers.URLField(required=False, allow_null=True)
+
     class Meta:
         model = ProjectsInfo
         fields = '__all__'
