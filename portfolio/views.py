@@ -280,13 +280,16 @@ def get_projects_info(request):
         return Response({"error": "Username is required"}, status=400)
 
     try:
-        projects_info = ProjectsInfo.objects.get(username=username)
-        serializer = ProjectsSerializer(projects_info)
-        count = ProjectsInfo.objects.count()
+        # projects_info = ProjectsInfo.objects.get(username=username)
+        # serializer = ProjectsSerializer(projects_info)
+        # count = ProjectsInfo.objects.count()
+        projects_info = ProjectsInfo.objects.filter(username=username)  # ✅ change here
+        serializer = ProjectsSerializer(projects_info, many=True)  # ✅ and here
+        count = projects_info.count()
         return Response({
-            'data': serializer.data,
-            'count': count
-        })
+                'data': serializer.data,
+                'count': count
+            })
     except ProjectsInfo.DoesNotExist:
         return Response({"error": "Not found"}, status=404)
 

@@ -5,7 +5,7 @@ from django.urls import path
 from .views import add_home_info, get_home_info, get_about_info, add_about_info, get_footer_info, add_footer_info, \
     add_projects_info, get_latest_info, add_latest_info, RegisterView, GetCrsfToken, LoginView, LogoutView, \
     get_projects_info \
- 
+
 urlpatterns = [
 
 
