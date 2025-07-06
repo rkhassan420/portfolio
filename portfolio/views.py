@@ -1,5 +1,8 @@
+import re
+
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
+from django.contrib.sites import requests
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -280,9 +283,6 @@ def get_projects_info(request):
         return Response({"error": "Username is required"}, status=400)
 
     try:
-        # projects_info = ProjectsInfo.objects.get(username=username)
-        # serializer = ProjectsSerializer(projects_info)
-        # count = ProjectsInfo.objects.count()
         projects_info = ProjectsInfo.objects.filter(username=username)  # ✅ change here
         serializer = ProjectsSerializer(projects_info, many=True)  # ✅ and here
         count = projects_info.count()
@@ -319,6 +319,51 @@ def add_projects_info(request):
 
 # post ProjectsInfo
 
+
+
+@api_view(['DELETE'])
+@permission_classes([AllowAny])
+def delete_projects_info(request, pk):
+    try:
+        project = ProjectsInfo.objects.get(pk=pk)
+
+        # Check if image is from Supabase
+        if project.image and "supabase.co/storage" in project.image:
+            try:
+                # Extract image path from Supabase public URL
+                image_url = project.image
+                match = re.search(r'/object/public/portfolio/(.+)', image_url)
+                if match:
+                    image_path = match.group(1)
+
+                    # Use Supabase REST API to delete the image
+                    # Requires your Supabase API key and project URL
+                    SUPABASE_URL = "https://psayyzbyeelgirwdzoyg.supabase.co"
+                    SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYXl5emJ5ZWVsZ2lyd2R6b3lnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MDMzMjYsImV4cCI6MjA2NzE3OTMyNn0.S7e9FKq0pOjxIyEcDsKW67wjP97sW7OPLZwK-NrqrCg"  # Replace with service role key
+
+                    headers = {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": f"Bearer {SUPABASE_KEY}",
+                    }
+
+                    del_res = requests.delete(
+                        f"{SUPABASE_URL}/storage/v1/object/portfolio/{image_path}",
+                        headers=headers
+                    )
+
+                    if del_res.status_code != 200:
+                        print("⚠️ Supabase image deletion failed:", del_res.text)
+
+            except Exception as e:
+                print("⚠️ Error deleting image from Supabase:", e)
+
+        # Delete the project from DB
+        project.delete()
+
+        return Response(status=204)
+
+    except ProjectsInfo.DoesNotExist:
+        return Response({'error': 'Project not found'}, status=404)
 
 # projectsDel
 
