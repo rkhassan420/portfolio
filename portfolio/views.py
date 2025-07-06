@@ -262,10 +262,21 @@ def get_latest_info(request):
 # get FooterInfo
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_footer_info(request):
-    footer_info = FooterInfo.objects.all()
-    serializer = FooterSerializer(footer_info, many=True)
-    return Response(serializer.data)
+    try:
+        username = request.query_params.get('username')
+
+        if not username:
+            return Response({'error': 'Username is required'}, status=400)
+
+        footer_info = FooterInfo.objects.filter(username=username)
+        serializer = FooterSerializer(footer_info, many=True)
+        return Response(serializer.data, status=200)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
 
 
 # get FooterInfo
@@ -274,25 +285,15 @@ def get_footer_info(request):
 # post FooterInfo
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def add_footer_info(request):
-    try:
-        # Get the existing FooterInfo object (if any)
-        footer_info = FooterInfo.objects.first()
+    serializer = FooterSerializer(data=request.data)
 
-        if footer_info:
-            # Update the existing object with new data
-            serializer = FooterSerializer(footer_info, data=request.data)
-        else:
-            # Create a new object
-            serializer = FooterSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
+    return Response(serializer.errors, status=400)
 
 
 # post FooterInfo
