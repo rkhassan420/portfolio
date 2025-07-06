@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import HomeInfo, FooterInfo, ProjectsInfo, LatestInfo
-from .models import AboutInfo
+from .models import HomeInfo, FooterInfo, ProjectsInfo, AboutInfo
 
 
 class HomeSerializer(serializers.ModelSerializer):
@@ -20,13 +19,6 @@ class FooterSerializer(serializers.ModelSerializer):
         model = FooterInfo
         fields = '__all__'
 
-
-class LatestSerializer(serializers.ModelSerializer):
-    image = serializers.URLField(required=False, allow_null=True)
-
-    class Meta:
-        model = LatestInfo
-        fields = '__all__'
 
 
 class ProjectsSerializer(serializers.ModelSerializer):

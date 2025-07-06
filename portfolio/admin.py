@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HomeInfo, FooterInfo, ProjectsInfo, LatestInfo
+from .models import HomeInfo, FooterInfo, ProjectsInfo
 from .models import AboutInfo
 
 
@@ -17,13 +17,12 @@ class FooterInfoAdmin(admin.ModelAdmin):
 class ProjectsInfoAdmin(admin.ModelAdmin):
     list_display = ('p_name',  'p_skills', 'p_url', 'image')
 
-class LatestInfoAdmin(admin.ModelAdmin):
-    list_display = ('p_name', 'p_skills', 'p_url', 'image')
+
 
 
 admin.site.register(HomeInfo, HomeInfoAdmin)
 admin.site.register(AboutInfo, AboutInfoAdmin)
 admin.site.register(FooterInfo, FooterInfoAdmin)
 admin.site.register(ProjectsInfo, ProjectsInfoAdmin)
-admin.site.register(LatestInfo, LatestInfoAdmin)
+
 
