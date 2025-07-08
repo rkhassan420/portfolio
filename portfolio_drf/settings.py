@@ -29,11 +29,11 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-      "https://developedbyhassan.netlify.app",  # React frontend
+      "https://showcraft.netlify.app",  # React frontend
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-      "https://developedbyhassan.netlify.app",
+      "https://showcraft.netlify.app",
 ]
 
 # SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site
