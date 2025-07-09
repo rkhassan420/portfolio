@@ -1,6 +1,8 @@
+from django.conf.global_settings import AUTH_USER_MODEL
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -287,4 +289,11 @@ def delete_projects_info(request, pk):
 
 
 
-
+@api_view(['DELETE'])
+def delete_user_account(request, username):
+    try:
+        user = User.objects.get(username=username)
+        user.delete()
+        return Response({'message': 'User deleted successfully'}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
