@@ -5,7 +5,7 @@ from django.urls import path
 from .views import add_home_info, get_home_info, get_about_info, add_about_info, get_footer_info, add_footer_info, \
     add_projects_info, RegisterView, GetCrsfToken, LoginView, LogoutView, \
     get_projects_info, delete_projects_info, delete_user_account \
- 
+
 urlpatterns = [
 
     path('RegisterUser/', RegisterView, name='RegisterUser'),

@@ -290,6 +290,7 @@ def delete_projects_info(request, pk):
 
 
 @api_view(['DELETE'])
+@permission_classes([AllowAny])
 def delete_user_account(request, username):
     try:
         user = User.objects.get(username=username)
