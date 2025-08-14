@@ -30,10 +30,12 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
       "https://showcraft.netlify.app",  # React frontend
+      "https://alicalculators.netlify.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
       "https://showcraft.netlify.app",
+      "https://alicalculators.netlify.app",
 ]
 
 # SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'portfolio',
     'corsheaders',
+    'web_calc'
 
 ]
 
