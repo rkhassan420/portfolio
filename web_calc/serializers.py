@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from calendar import monthrange
 
 class AgeSerializer(serializers.Serializer):
@@ -14,7 +14,7 @@ class AgeSerializer(serializers.Serializer):
         birth_date = instance['birth_date']
         today = datetime.today().date()
 
-        # ----- Accurate Age Calculation -----
+        # ---------- Accurate AGE ----------
         years = today.year - birth_date.year
         months = today.month - birth_date.month
         days = today.day - birth_date.day
@@ -23,50 +23,50 @@ class AgeSerializer(serializers.Serializer):
             months -= 1
             prev_month = today.month - 1 if today.month > 1 else 12
             prev_year = today.year if today.month > 1 else today.year - 1
-            days += monthrange(prev_year, prev_month)[1]  # Days in prev month
+            days += monthrange(prev_year, prev_month)[1]
 
         if months < 0:
             years -= 1
             months += 12
 
-        # ----- Next Birthday Calculation -----
+        # ---------- Next Birthday ----------
         next_birthday_year = today.year
         if (today.month, today.day) >= (birth_date.month, birth_date.day):
             next_birthday_year += 1
 
-        # Handle Feb 29 birthdays in non-leap years
         try:
             next_birthday = date(next_birthday_year, birth_date.month, birth_date.day)
-        except ValueError:
-            next_birthday = date(next_birthday_year, 3, 1)  # Shift to March 1
+        except ValueError:  # Leap day handling
+            next_birthday = date(next_birthday_year, 3, 1)
 
-        # Total countdown days & seconds
+        # ----- QUICK TEST (uncomment to force 2 mins left) -----
+        # next_birthday = today + timedelta(minutes=2)
+
+        # Countdown
         remaining_days_total = (next_birthday - today).days
-        remaining_seconds_total = remaining_days_total * 24 * 60 * 60
+        remaining_seconds_total = int((next_birthday - datetime.now().date()).days * 86400 +
+                                      (datetime.combine(next_birthday, datetime.min.time()) - datetime.now()).total_seconds())
 
-        # Convert remaining days to months + days (exact)
-        rem_months = 0
-        rem_days = 0
-        temp_date = today
+        # Months/days until next birthday
+        nb_years = next_birthday.year - today.year
+        nb_months = next_birthday.month - today.month
+        nb_days = next_birthday.day - today.day
 
-        while True:
-            if temp_date.month == next_birthday.month and temp_date.year == next_birthday.year:
-                rem_days = (next_birthday - temp_date).days
-                break
+        if nb_days < 0:
+            nb_months -= 1
+            prev_month = next_birthday.month - 1 if next_birthday.month > 1 else 12
+            prev_year = next_birthday.year if next_birthday.month > 1 else next_birthday.year - 1
+            nb_days += monthrange(prev_year, prev_month)[1]
 
-            days_in_current_month = monthrange(temp_date.year, temp_date.month)[1]
-            rem_months += 1
-            temp_date = date(
-                temp_date.year + (temp_date.month // 12),
-                (temp_date.month % 12) + 1,
-                1
-            )
+        if nb_months < 0:
+            nb_years -= 1
+            nb_months += 12
 
         return {
             "years": years,
             "months": months,
             "days": days,
-            "next_birthday_in": f"{rem_months} months {rem_days} days",
+            "next_birthday_in": f"{nb_months} months {nb_days} days",
             "next_birthday_countdown_days": remaining_days_total,
-            "next_birthday_countdown_seconds": remaining_seconds_total
+            "next_birthday_countdown_seconds": max(0, remaining_seconds_total)
         }
