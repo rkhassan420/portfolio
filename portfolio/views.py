@@ -237,8 +237,9 @@ def get_projects_info(request):
         return Response({"error": "Username is required"}, status=400)
 
     try:
-        projects_info = ProjectsInfo.objects.filter(username=username)  # ✅ change here
+        projects_info = ProjectsInfo.objects.filter(username=username).order_by('-id')
         serializer = ProjectsSerializer(projects_info, many=True)  # ✅ and here
+
         count = projects_info.count()
         return Response({
                 'data': serializer.data,
