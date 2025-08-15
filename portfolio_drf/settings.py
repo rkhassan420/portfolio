@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'portfolio',
     'corsheaders',
-    'web_calc'
+    'web_calc',
+    'pass_generator',
 
 ]
 
