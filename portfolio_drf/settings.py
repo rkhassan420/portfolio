@@ -33,6 +33,7 @@ CORS_ALLOWED_ORIGINS = [
       "https://alicalculators.netlify.app",
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
+      "https://random-allocator.netlify.app"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -40,6 +41,7 @@ CSRF_TRUSTED_ORIGINS = [
       "https://alicalculators.netlify.app",
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
+      "https://random-allocator.netlify.app"
 ]
 
 # SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site
@@ -61,6 +63,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'web_calc',
     'pass_generator',
+    'randomtopic',
 
 ]
 

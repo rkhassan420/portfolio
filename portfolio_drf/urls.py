@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('portfolio.urls')),
     path('', include('web_calc.urls')),
     path('', include('pass_generator.urls')),
+    path('', include('randomtopic.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
