@@ -105,7 +105,7 @@ class AgeSerializer(serializers.Serializer):
 
         # ---------- Next Birthday ----------
         next_birthday_year = today.year
-        if (today.month, today.day) >= (birth_date.month, birth_date.day):
+        if (today.month, today.day) > (birth_date.month, birth_date.day):
             next_birthday_year += 1
 
         try:
