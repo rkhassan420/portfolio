@@ -71,14 +71,14 @@
 #             "next_birthday_countdown_seconds": max(0, remaining_seconds_total)
 #         }
 
-
 from rest_framework import serializers
 from datetime import datetime, date, time
 from calendar import monthrange
 
+
 class AgeSerializer(serializers.Serializer):
     birth_date = serializers.DateField()
-    birthday_hour = serializers.TimeField(default=time(12, 0))  # Default birthday at 12:00 PM
+    birthday_hour = serializers.TimeField(required=False, default=time(12, 0))  # Default birthday at 12:00 PM
 
     def validate_birth_date(self, value):
         if value > datetime.today().date():
@@ -86,8 +86,10 @@ class AgeSerializer(serializers.Serializer):
         return value
 
     def to_representation(self, instance):
-        birth_date = instance['birth_date']
-        birthday_hour = instance.get('birthday_hour', time(12, 0))  # Use default if not provided
+        # Use instance if it's a dict (from serializer) or object with attributes
+        birth_date = getattr(instance, 'birth_date', instance.get('birth_date'))
+        birthday_hour = getattr(instance, 'birthday_hour', instance.get('birthday_hour', time(12, 0)))
+
         today = datetime.today().date()
 
         # ---------- Accurate AGE ----------
@@ -130,7 +132,7 @@ class AgeSerializer(serializers.Serializer):
 
         # ---------- Countdown ----------
         now = datetime.now()
-        next_birthday_datetime = datetime.combine(next_birthday, birthday_hour)  # Set specific birthday time
+        next_birthday_datetime = datetime.combine(next_birthday, birthday_hour)
         total_seconds = max(0, int((next_birthday_datetime - now).total_seconds()))
 
         days_left = total_seconds // 86400
@@ -150,3 +152,4 @@ class AgeSerializer(serializers.Serializer):
                 "seconds": seconds_left
             }
         }
+
