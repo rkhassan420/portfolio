@@ -41,7 +41,7 @@ CORS_ALLOWED_ORIGINS = [
       "https://alicalculators.netlify.app",
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
-      "https://random-allocator.netlify.app"
+      "https://random-allocator.netlify.app",
       "https://ahnotes.netlify.app"
 ]
 
@@ -50,7 +50,7 @@ CSRF_TRUSTED_ORIGINS = [
       "https://alicalculators.netlify.app",
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
-      "https://random-allocator.netlify.app"
+      "https://random-allocator.netlify.app",
       "https://ahnotes.netlify.app"
 ]
 
