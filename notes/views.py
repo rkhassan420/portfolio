@@ -7,6 +7,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import Note, PasswordResetCode
@@ -56,6 +57,7 @@ class LoginView(APIView):
 class NoteListCreateView(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
 
     def get_queryset(self):
@@ -68,6 +70,7 @@ class NoteListCreateView(generics.ListCreateAPIView):
 class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         return Note.objects.filter(user=self.request.user)
@@ -162,6 +165,7 @@ class ResetPasswordView(APIView):
 
 class DeleteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     def delete(self, request, user_id):
         token_user = request.user
         if token_user.id != user_id:
