@@ -15,6 +15,14 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "aleemhassan0013@gmail.com"
+EMAIL_HOST_PASSWORD = "lmwy bzvj cifn aaee"  # not your Gmail password, use App Password
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -34,6 +42,7 @@ CORS_ALLOWED_ORIGINS = [
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app"
+      "https://ahnotes.netlify.app"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -42,6 +51,7 @@ CSRF_TRUSTED_ORIGINS = [
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app"
+      "https://ahnotes.netlify.app"
 ]
 
 # SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site
@@ -64,6 +74,7 @@ INSTALLED_APPS = [
     'web_calc',
     'pass_generator',
     'randomtopic',
+    'notes',
 
 ]
 
@@ -100,6 +111,7 @@ WSGI_APPLICATION = 'portfolio_drf.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -168,6 +180,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ]
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -176,8 +198,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
+
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
