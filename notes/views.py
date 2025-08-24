@@ -1,20 +1,22 @@
 # views.py
+import random
 from django.contrib.auth.hashers import make_password
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.core.mail import send_mail
 from rest_framework import generics, permissions, status
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from .models import Note, PasswordResetCode
 from .serializers import NoteSerializer
-import random
-from django.core.mail import send_mail
-from rest_framework.response import Response
+from .serializers import UserSerializer
 
 
 # Register
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -33,6 +35,7 @@ from django.contrib.auth import authenticate
 
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -54,6 +57,7 @@ class NoteListCreateView(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+
     def get_queryset(self):
         return Note.objects.filter(user=self.request.user).order_by('-date')
 
@@ -73,6 +77,7 @@ class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ForgotPasswordView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         username = request.data.get("username")
 
@@ -106,6 +111,7 @@ class ForgotPasswordView(APIView):
 
 
 class VerifyCodeView(APIView):
+        permission_classes = [AllowAny]
         def post(self, request):
             username = request.data.get("username")
             code = request.data.get("code")
@@ -132,6 +138,7 @@ class VerifyCodeView(APIView):
 
 
 class ResetPasswordView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         username = request.data.get("username")
         new_password = request.data.get("password")
@@ -154,6 +161,7 @@ class ResetPasswordView(APIView):
 
 
 class DeleteUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def delete(self, request, user_id):
         token_user = request.user
         if token_user.id != user_id:
