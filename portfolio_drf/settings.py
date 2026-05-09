@@ -32,7 +32,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
       "https://showcraft.netlify.app",  # React frontend
-      "https://alicalculators.netlify.app",
+       "https://calckit.netlify.app",
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app",
