@@ -30,22 +30,44 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_CREDENTIALS = True
 
+# CORS_ALLOWED_ORIGINS = [
+#       "https://showcraft.netlify.app",  # React frontend
+#        "https://calckit.netlify.app",
+#       "http://localhost:5173",
+#       "https://ak-pass.netlify.app",
+#       "https://random-allocator.netlify.app",
+#
+# ]
+
 CORS_ALLOWED_ORIGINS = [
-      "https://showcraft.netlify.app",  # React frontend
-       "https://calckit.netlify.app",
+    "https://showcraft.netlify.app",
+    "https://calckit.netlify.app",
+    "https://ak-pass.netlify.app",
+    "https://random-allocator.netlify.app",
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
+
+
+CSRF_TRUSTED_ORIGINS = [
+      "https://showcraft.netlify.app",
+      "https://calckit.netlify.app",
       "http://localhost:5173",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app",
 
 ]
-
-CSRF_TRUSTED_ORIGINS = [
-      "https://showcraft.netlify.app",
-      "https://alicalculators.netlify.app",
-      "http://localhost:5173",
-      "https://ak-pass.netlify.app",
-      "https://random-allocator.netlify.app",
-
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 # SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site
@@ -56,6 +78,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',   # move to top
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,19 +87,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'portfolio',
-    'corsheaders',
     'web_calc',
     'pass_generator',
     'randomtopic',
-
 ]
 
+# MIDDLEWARE = [
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.security.SecurityMiddleware',
+#     'whitenoise.middleware.WhiteNoiseMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# ]
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # MUST stay first
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
