@@ -46,6 +46,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://random-allocator.netlify.app",
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://ahnotes.netlify.app/"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
@@ -58,6 +59,7 @@ CSRF_TRUSTED_ORIGINS = [
       "http://localhost:3000",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app",
+      "https://ahnotes.netlify.app/"
 
 ]
 CORS_ALLOW_HEADERS = [
@@ -89,6 +91,7 @@ INSTALLED_APPS = [
     'web_calc',
     'pass_generator',
     'randomtopic',
+    'notes'
 ]
 
 
@@ -213,4 +216,15 @@ REST_FRAMEWORK = {
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "aleemhassan0013@gmail.com"
+EMAIL_HOST_PASSWORD = "lmwy bzvj cifn aaee"  # not your Gmail password, use App Password
 
