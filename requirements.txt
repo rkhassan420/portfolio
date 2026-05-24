@@ -13,6 +13,7 @@ defusedxml==0.7.1
 Django==5.2
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
+djangorestframework-simplejwt
 gunicorn==23.0.0
 html5lib==1.1
 idna==3.10
