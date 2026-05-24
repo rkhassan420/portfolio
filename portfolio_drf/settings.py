@@ -46,7 +46,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://random-allocator.netlify.app",
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://ahnotes.netlify.app/"
+    "https://ahnotes.netlify.app"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
