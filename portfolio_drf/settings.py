@@ -45,6 +45,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://ak-pass.netlify.app",
     "https://random-allocator.netlify.app",
     "http://localhost:5173",
+    "http://localhost:3000",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
@@ -54,6 +55,7 @@ CSRF_TRUSTED_ORIGINS = [
       "https://showcraft.netlify.app",
       "https://calckit.netlify.app",
       "http://localhost:5173",
+      "http://localhost:3000",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app",
 
@@ -70,9 +72,6 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-# SESSION_COOKIE_SAMESITE = "Lax"  # Use "None" only if cross-site
-# SESSION_COOKIE_SECURE = False    # True in production with HTTPS
-# CSRF_COOKIE_HTTPONLY = False
 
 
 # Application definition
@@ -92,17 +91,6 @@ INSTALLED_APPS = [
     'randomtopic',
 ]
 
-# MIDDLEWARE = [
-#     'corsheaders.middleware.CorsMiddleware',
-#     'django.middleware.security.SecurityMiddleware',
-#     'whitenoise.middleware.WhiteNoiseMiddleware',
-#     'django.contrib.sessions.middleware.SessionMiddleware',
-#     'django.middleware.common.CommonMiddleware',
-#     'django.middleware.csrf.CsrfViewMiddleware',
-#     'django.contrib.auth.middleware.AuthenticationMiddleware',
-#     'django.contrib.messages.middleware.MessageMiddleware',
-#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-# ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # MUST stay first
