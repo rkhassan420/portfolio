@@ -59,7 +59,7 @@ CSRF_TRUSTED_ORIGINS = [
       "http://localhost:3000",
       "https://ak-pass.netlify.app",
       "https://random-allocator.netlify.app",
-      "https://ahnotes.netlify.app/"
+      "https://ahnotes.netlify.app"
 
 ]
 CORS_ALLOW_HEADERS = [
