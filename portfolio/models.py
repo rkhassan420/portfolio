@@ -54,3 +54,15 @@ class OTPVerification(models.Model):
 
     def __str__(self):
         return f"{self.email} - {self.otp}"
+
+
+class PortfolioVisit(models.Model):
+    username = models.CharField(max_length=100)
+    visited_at = models.DateTimeField(auto_now_add=True)
+    country = models.CharField(max_length=100, blank=True, default='')
+    device = models.CharField(max_length=50, blank=True, default='')
+    browser = models.CharField(max_length=50, blank=True, default='')
+    section = models.CharField(max_length=50, blank=True, default='home')
+
+    def __str__(self):
+        return f"{self.username} — {self.visited_at.strftime('%Y-%m-%d %H:%M')}"

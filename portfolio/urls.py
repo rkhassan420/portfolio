@@ -7,7 +7,7 @@ from .views import (
     get_footer_info, add_footer_info,
     get_projects_info, add_projects_info,
     delete_projects_info,
-    delete_user_account,
+    delete_user_account, get_analytics, track_visit, GitHubOAuthView, GoogleOAuthView,
 )
 
 urlpatterns = [
@@ -26,4 +26,13 @@ urlpatterns = [
     path('add-projects-info/', add_projects_info, name='add_projects_info'),
     path('projects-del/<int:pk>/',       delete_projects_info, name='delete_project'),
     path('account-del/<str:username>/',  delete_user_account,  name='delete_account'),
+
+    # ── Analytics ──
+    path('api/track-visit/', track_visit, name='track-visit'),
+    path('api/analytics/<str:username>/', get_analytics, name='get-analytics'),
+
+    # ── OAuth ─────────────────────────────────────────────────
+    path('api/auth/google/', GoogleOAuthView, name='google-oauth'),
+    path('api/auth/github/', GitHubOAuthView, name='github-oauth'),
+
 ]
