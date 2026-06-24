@@ -2305,25 +2305,63 @@ def experience_detail(request, pk):
 
 # ── Certifications ────────────────────────────────────────────
 
+# @api_view(['GET', 'POST'])
+# # @permission_classes([IsAuthenticated])
+# @permission_classes([AllowAny])
+# def certification_list(request):
+#     username = request.query_params.get('username')
+#     # if request.method == 'GET':
+#         # 1. Public can view: Get username from the URL/Frontend
+#     if not username:
+#         return Response({"error": "Username is required"}, status=400)
+#             # username = request.user.username
+#     # if request.method == 'GET':
+#         items = CertificationInfo.objects.filter(username=username)
+#         return Response(CertificationInfoSerializer(items, many=True).data)
+#     data = {**request.data, 'username': username}
+#     serializer = CertificationInfoSerializer(data=data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     return Response(serializer.errors, status=400)
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from .models import CertificationInfo
+from .serializer import CertificationInfoSerializer
+
+
 @api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
 @permission_classes([AllowAny])
 def certification_list(request):
-    username = request.query_params.get('username')
-    # if request.method == 'GET':
-        # 1. Public can view: Get username from the URL/Frontend
-    if not username:
-        return Response({"error": "Username is required"}, status=400)
-            # username = request.user.username
-    # if request.method == 'GET':
+    # ── 1. PUBLIC GET REQUEST (Portfolio View) ──
+    if request.method == 'GET':
+        username = request.query_params.get('username')
+
+        if not username:
+            return Response({"error": "Username is required in URL parameters"}, status=400)
+
         items = CertificationInfo.objects.filter(username=username)
         return Response(CertificationInfoSerializer(items, many=True).data)
-    data = {**request.data, 'username': username}
-    serializer = CertificationInfoSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
+
+    # ── 2. PRIVATE POST REQUEST (Admin Dashboard) ──
+    elif request.method == 'POST':
+        # Manually check if they are logged in since the view allows anyone
+        if not request.user.is_authenticated:
+            return Response({"error": "Authentication required to add certifications"}, status=401)
+
+        # Get the username from the secure token/session, NOT the URL
+        username = request.user.username
+
+        data = {**request.data, 'username': username}
+        serializer = CertificationInfoSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+
+        return Response(serializer.errors, status=400)
+
 
 
 @api_view(['PUT', 'DELETE'])
