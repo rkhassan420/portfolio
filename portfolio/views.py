@@ -2284,27 +2284,57 @@ def education_detail(request, pk):
 #         serializer.save()
 #         return Response(serializer.data, status=201)
 #     return Response(serializer.errors, status=400)
+
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
-def experience_list(request):
+def certification_list(request):
 
     if request.method == 'GET':
+        # Public portfolio passes ?username=xxx
+        # Admin (logged in) doesn't need to pass it
         username = request.query_params.get('username')
+        if not username and request.user.is_authenticated:
+            username = request.user.username
         if not username:
             return Response({"error": "Username is required"}, status=400)
-        items = ExperienceInfo.objects.filter(username=username).order_by('order')
-        return Response(ExperienceInfoSerializer(items, many=True).data)
+
+        items = CertificationInfo.objects.filter(username=username)
+        return Response(CertificationInfoSerializer(items, many=True).data)
 
     # POST
     username = request.data.get('username')
+    if not username and request.user.is_authenticated:
+        username = request.user.username
     if not username:
         return Response({"error": "Username is required"}, status=400)
     data = {**request.data, 'username': username}
-    serializer = ExperienceInfoSerializer(data=data)
+    serializer = CertificationInfoSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
+# @api_view(['GET', 'POST'])
+# @permission_classes([AllowAny])
+# def experience_list(request):
+#
+#     if request.method == 'GET':
+#         username = request.query_params.get('username')
+#         if not username:
+#             return Response({"error": "Username is required"}, status=400)
+#         items = ExperienceInfo.objects.filter(username=username).order_by('order')
+#         return Response(ExperienceInfoSerializer(items, many=True).data)
+#
+#     # POST
+#     username = request.data.get('username')
+#     if not username:
+#         return Response({"error": "Username is required"}, status=400)
+#     data = {**request.data, 'username': username}
+#     serializer = ExperienceInfoSerializer(data=data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     return Response(serializer.errors, status=400)
 
 
 
