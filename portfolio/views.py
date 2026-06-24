@@ -2264,26 +2264,48 @@ def education_detail(request, pk):
 
 # ── Experience ────────────────────────────────────────────────
 
+# @api_view(['GET', 'POST'])
+# # @permission_classes([IsAuthenticated])
+# @permission_classes([AllowAny])
+# def experience_list(request):
+#     # username = request.user.username
+#     # if request.method == 'GET':
+#     if request.method == 'GET':
+#         # Public can view: Get username from the URL/Frontend
+#         username = request.query_params.get('username')
+#         if not username:
+#             return Response({"error": "Username is required"}, status=400)
+#
+#         items = ExperienceInfo.objects.filter(username=username).order_by('order')
+#         return Response(ExperienceInfoSerializer(items, many=True).data)
+#     data = {**request.data, 'username': username}
+#     serializer = ExperienceInfoSerializer(data=data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     return Response(serializer.errors, status=400)
 @api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
 @permission_classes([AllowAny])
 def experience_list(request):
-    # username = request.user.username
-    # if request.method == 'GET':
+
     if request.method == 'GET':
-        # Public can view: Get username from the URL/Frontend
         username = request.query_params.get('username')
         if not username:
             return Response({"error": "Username is required"}, status=400)
-
         items = ExperienceInfo.objects.filter(username=username).order_by('order')
         return Response(ExperienceInfoSerializer(items, many=True).data)
+
+    # POST
+    username = request.data.get('username')
+    if not username:
+        return Response({"error": "Username is required"}, status=400)
     data = {**request.data, 'username': username}
     serializer = ExperienceInfoSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
 
 
 @api_view(['PUT', 'DELETE'])
