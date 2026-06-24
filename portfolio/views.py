@@ -2285,12 +2285,36 @@ def education_detail(request, pk):
 #         return Response(serializer.data, status=201)
 #     return Response(serializer.errors, status=400)
 
+# @api_view(['GET', 'POST'])
+# @permission_classes([AllowAny])
+# def experience_list(request):
+#
+#     if request.method == 'GET':
+#         username = request.query_params.get('username')
+#         if not username:
+#             return Response({"error": "Username is required"}, status=400)
+#         items = ExperienceInfo.objects.filter(username=username).order_by('order')
+#         return Response(ExperienceInfoSerializer(items, many=True).data)
+#
+#     # POST
+#     username = request.data.get('username')
+#     if not username:
+#         return Response({"error": "Username is required"}, status=400)
+#     data = {**request.data, 'username': username}
+#     serializer = ExperienceInfoSerializer(data=data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     return Response(serializer.errors, status=400)
+
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def experience_list(request):
 
     if request.method == 'GET':
         username = request.query_params.get('username')
+        if not username and request.user.is_authenticated:
+            username = request.user.username
         if not username:
             return Response({"error": "Username is required"}, status=400)
         items = ExperienceInfo.objects.filter(username=username).order_by('order')
@@ -2298,6 +2322,8 @@ def experience_list(request):
 
     # POST
     username = request.data.get('username')
+    if not username and request.user.is_authenticated:
+        username = request.user.username
     if not username:
         return Response({"error": "Username is required"}, status=400)
     data = {**request.data, 'username': username}
@@ -2306,6 +2332,7 @@ def experience_list(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
 
 
 
