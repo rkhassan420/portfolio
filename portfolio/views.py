@@ -2356,18 +2356,27 @@ def experience_detail(request, pk):
 # ── Certifications ────────────────────────────────────────────
 
 # @api_view(['GET', 'POST'])
-# # @permission_classes([IsAuthenticated])
 # @permission_classes([AllowAny])
 # def certification_list(request):
-#     username = request.query_params.get('username')
-#     # if request.method == 'GET':
-#         # 1. Public can view: Get username from the URL/Frontend
-#     if not username:
-#         return Response({"error": "Username is required"}, status=400)
-#             # username = request.user.username
-#     # if request.method == 'GET':
+#
+#     if request.method == 'GET':
+#         # Public portfolio passes ?username=xxx
+#         # Admin (logged in) doesn't need to pass it
+#         username = request.query_params.get('username')
+#         if not username and request.user.is_authenticated:
+#             username = request.user.username
+#         if not username:
+#             return Response({"error": "Username is required"}, status=400)
+#
 #         items = CertificationInfo.objects.filter(username=username)
 #         return Response(CertificationInfoSerializer(items, many=True).data)
+#
+#     # POST
+#     username = request.data.get('username')
+#     if not username and request.user.is_authenticated:
+#         username = request.user.username
+#     if not username:
+#         return Response({"error": "Username is required"}, status=400)
 #     data = {**request.data, 'username': username}
 #     serializer = CertificationInfoSerializer(data=data)
 #     if serializer.is_valid():
@@ -2375,19 +2384,16 @@ def experience_detail(request, pk):
 #         return Response(serializer.data, status=201)
 #     return Response(serializer.errors, status=400)
 
+
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def certification_list(request):
-
     if request.method == 'GET':
-        # Public portfolio passes ?username=xxx
-        # Admin (logged in) doesn't need to pass it
         username = request.query_params.get('username')
         if not username and request.user.is_authenticated:
             username = request.user.username
         if not username:
             return Response({"error": "Username is required"}, status=400)
-
         items = CertificationInfo.objects.filter(username=username)
         return Response(CertificationInfoSerializer(items, many=True).data)
 
@@ -2405,38 +2411,44 @@ def certification_list(request):
     return Response(serializer.errors, status=400)
 
 
-# @api_view(['GET', 'POST'])
-# @permission_classes([AllowAny])
-# def certification_list(request):
-#     username = request.query_params.get('username')
-#
-#     if request.method == 'GET':
-#         if not username:
-#             return Response({"error": "Username is required"}, status=400)
-#         items = CertificationInfo.objects.filter(username=username)
-#         return Response(CertificationInfoSerializer(items, many=True).data)
-#
-#     # POST — requires username in body
-#     data = {**request.data, 'username': request.data.get('username', username)}
-#     serializer = CertificationInfoSerializer(data=data)
+
+
+
+
+# @api_view(['PUT', 'DELETE'])
+# @permission_classes([IsAuthenticated])
+# def certification_detail(request, pk):
+#     try:
+#         obj = CertificationInfo.objects.get(pk=pk, username=request.user.username)
+#     except CertificationInfo.DoesNotExist:
+#         return Response({'error': 'Not found'}, status=404)
+#     if request.method == 'DELETE':
+#         obj.delete()
+#         return Response({'message': 'Deleted'})
+#     serializer = CertificationInfoSerializer(obj, data=request.data, partial=True)
 #     if serializer.is_valid():
 #         serializer.save()
-#         return Response(serializer.data, status=201)
+#         return Response(serializer.data)
 #     return Response(serializer.errors, status=400)
 
 
-
 @api_view(['PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def certification_detail(request, pk):
     try:
-        obj = CertificationInfo.objects.get(pk=pk, username=request.user.username)
+        obj = CertificationInfo.objects.get(pk=pk)
     except CertificationInfo.DoesNotExist:
         return Response({'error': 'Not found'}, status=404)
+
     if request.method == 'DELETE':
         obj.delete()
         return Response({'message': 'Deleted'})
-    serializer = CertificationInfoSerializer(obj, data=request.data, partial=True)
+
+    # PUT — preserve existing image if not provided
+    data = request.data.copy()
+    if not data.get('image'):
+        data['image'] = obj.image
+    serializer = CertificationInfoSerializer(obj, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)

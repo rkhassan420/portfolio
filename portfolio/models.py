@@ -243,6 +243,7 @@ class CertificationInfo(models.Model):
     issuer     = models.CharField(max_length=200, blank=True, default='')
     date       = models.CharField(max_length=50,  blank=True, default='')
     verify_url = models.URLField(max_length=400,  blank=True, default='')
+    image      = models.URLField(max_length=700, blank=True, null=True)
 
     def __str__(self):
         return f'{self.username} — {self.name}'
